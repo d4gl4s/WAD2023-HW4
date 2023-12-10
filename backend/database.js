@@ -2,7 +2,7 @@ const Pool = require("pg").Pool
 
 const pool = new Pool({
   user: "postgres",
-  password: "", //add your password
+  password: "parool", //add your password
   database: "WAD2023-HW4",
   host: "localhost",
   port: "5432",
@@ -32,7 +32,7 @@ const createTblQueryUsers = `
   );`
 
 const createTblQueryPosts = `
-    CREATE TABLE IF NOT EXISTS "posts" (
+    CREATE TABLE IF NOT EXISTS "posttable" (
         id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
         body TEXT NOT NULL,
         date_created TIMESTAMP DEFAULT current_timestamp,
@@ -40,8 +40,9 @@ const createTblQueryPosts = `
         user_id uuid REFERENCES "users" (id) ON DELETE CASCADE
     );`
 
+    
 const insertPostQuery = `
-    INSERT INTO "posts" (body, user_id) VALUES
+    INSERT INTO "posttable" (body, user_id) VALUES
     ('Post 1 body', (SELECT id FROM "users" WHERE email = 'daglas.aitsen@ut.ee')),
     ('Post 2 body', (SELECT id FROM "users" WHERE email = 'daglas.aitsen@ut.ee')),
     ('Post 3 body', (SELECT id FROM "users" WHERE email = 'daglas.aitsen@ut.ee')),
@@ -52,7 +53,7 @@ const insertPostQuery = `
 execute(createTblQueryUsers)
   .then(() => execute(createTblQueryPosts))
   .then(() => execute(insertPostQuery))
-  .then(() => console.log('Tables "users" and "posts" are created.'))
+  .then(() => console.log('Tables "users" and "posttable" are created.'))
   .catch((error) => console.error("Error:", error))
 
 module.exports = pool

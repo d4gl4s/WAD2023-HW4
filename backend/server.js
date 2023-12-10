@@ -35,7 +35,7 @@ app.post("/posts", async (req, res) => {
   
 
     const insertPostQuery = `
-      INSERT INTO "posts" (body, user_id) VALUES ($1, $2) RETURNING *;
+      INSERT INTO "posttable" (body, user_id) VALUES ($1, $2) RETURNING *;
     `;
 
     const result = await pool.query(insertPostQuery, [body, userId]);
@@ -50,7 +50,7 @@ app.post("/posts", async (req, res) => {
 
 app.get("/posts", async (req, res) => {
   try {
-    const posts = await pool.query("SELECT * FROM posts ORDER BY date_created DESC")
+    const posts = await pool.query("SELECT * FROM posttable ORDER BY date_created DESC")
     res.send({ posts })
   } catch (err) {
     console.error(err.message)
@@ -60,7 +60,7 @@ app.get("/posts", async (req, res) => {
 
 app.get("/deleteAll", async (req, res) => {
   try {
-    const deleteAllPostsFromDB = await pool.query("DELETE FROM posts")
+    const deleteAllPostsFromDB = await pool.query("DELETE FROM posttable")
     res.send(200)
   } catch (err) {
     console.error(err.message)
@@ -130,7 +130,7 @@ app.post("/auth/signup", async (req, res) => {
 app.put("/increaseLikeCount", async (req, res) => {
   try {
     const postId = req.body.postId
-    const increaseLikeCount = await pool.query("UPDATE posts SET like_count = like_count + 1 WHERE id = $1 RETURNING *", [postId])
+    const increaseLikeCount = await pool.query("UPDATE posttable SET like_count = like_count + 1 WHERE id = $1 RETURNING *", [postId])
     res.status(200)
   } catch (err) {
     console.error(err.message)
