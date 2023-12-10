@@ -2,7 +2,7 @@
 <template>
   <footer>
     <div class="copyright">
-      &copy; 2023 wad2023-hw3
+      &copy; 2023 wad2023-hw4
     </div>
   </footer>
 </template>
