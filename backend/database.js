@@ -2,7 +2,7 @@ const Pool = require("pg").Pool
 
 const pool = new Pool({
   user: "postgres",
-  password: "", //add your password
+  password: "sql", //add your password
   database: "WAD2023-HW4",
   host: "localhost",
   port: "5432",
@@ -40,7 +40,6 @@ const createTblQueryPosts = `
         user_id uuid REFERENCES "users" (id) ON DELETE CASCADE
     );`
 
-    
 const insertPostQuery = `
     INSERT INTO "posttable" (body, user_id) VALUES
     ('Post 1 body', (SELECT id FROM "users" WHERE email = 'daglas.aitsen@ut.ee')),

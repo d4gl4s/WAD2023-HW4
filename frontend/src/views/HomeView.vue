@@ -45,7 +45,6 @@ export default {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("jwt removed")
           this.$router.push("/login")
         })
         .catch((e) => {
@@ -54,7 +53,6 @@ export default {
         })
     },
     IncreaseLikeCount: function (postId) {
-      console.log("id: " + postId)
       fetch("http://localhost:3000/increaseLikeCount", {
         method: "PUT",
         headers: {

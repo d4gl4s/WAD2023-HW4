@@ -30,23 +30,14 @@ app.listen(port, () => {
 
 app.post("/posts", async (req, res) => {
   try {
-    console.log("a post request has arrived");
-    const { body, userId } = req.body;
-  
-
-    const insertPostQuery = `
-      INSERT INTO "posttable" (body, user_id) VALUES ($1, $2) RETURNING *;
-    `;
-
-    const result = await pool.query(insertPostQuery, [body, userId]);
-
-    res.status(201).json(result);
+    const { body, userId } = req.body
+    const result = await pool.query("INSERT INTO posttable(body, user_id) VALUES ($1, $2) RETURNING *", [body, userId])
+    res.status(201).json(result)
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send(err.message);
+    console.error(err.message)
+    res.status(500).send(err.message)
   }
-});
-
+})
 
 app.get("/posts", async (req, res) => {
   try {
