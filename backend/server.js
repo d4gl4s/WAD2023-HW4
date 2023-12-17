@@ -30,8 +30,8 @@ app.listen(port, () => {
 
 app.post("/posts", async (req, res) => {
   try {
-    const { body, userId } = req.body
-    const result = await pool.query("INSERT INTO posttable(body, user_id) VALUES ($1, $2) RETURNING *", [body, userId])
+    const { body } = req.body
+    const result = await pool.query("INSERT INTO posttable(body) VALUES ($1) RETURNING *", [body])
     res.status(201).json(result)
   } catch (err) {
     console.error(err.message)
@@ -46,6 +46,40 @@ app.get("/posts", async (req, res) => {
   } catch (err) {
     console.error(err.message)
     res.status(400).send(err.message)
+  }
+})
+
+app.get("/posts/:id", async (req, res) => {
+  try {
+    console.log("get a post with route parameter  request has arrived")
+    const { id } = req.params
+    const posts = await pool.query("SELECT * FROM posttable WHERE id = $1", [id])
+    res.json(posts.rows[0])
+  } catch (err) {
+    console.error(err.message)
+  }
+})
+
+app.put("/posts/:id", async (req, res) => {
+  try {
+    const { id } = req.params
+    const post = req.body
+    console.log("update request has arrived")
+    const updatepost = await pool.query("UPDATE posttable SET body = $2 WHERE id = $1 RETURNING*", [id, post.body])
+    res.json(updatepost)
+  } catch (err) {
+    console.error(err.message)
+  }
+})
+
+app.delete("/posts/:id", async (req, res) => {
+  try {
+    const { id } = req.params
+    console.log("delete a post request has arrived")
+    const deletepost = await pool.query("DELETE FROM posttable WHERE id = $1 RETURNING*", [id])
+    res.json(deletepost)
+  } catch (err) {
+    console.error(err.message)
   }
 })
 

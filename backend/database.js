@@ -2,7 +2,7 @@ const Pool = require("pg").Pool
 
 const pool = new Pool({
   user: "postgres",
-  password: "", //add your password
+  password: "sql", //add your password
   database: "WAD2023-HW4",
   host: "localhost",
   port: "5432",
@@ -36,22 +36,21 @@ const createTblQueryPosts = `
         id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
         body TEXT NOT NULL,
         date_created TIMESTAMP DEFAULT current_timestamp,
-        like_count INTEGER DEFAULT 0,
-        user_id uuid REFERENCES "users" (id) ON DELETE CASCADE
+        like_count INTEGER DEFAULT 0
     );`
 
-const insertPostQuery = `
+/* const insertPostQuery = `
     INSERT INTO "posttable" (body, user_id) VALUES
     ('Post 1 body', (SELECT id FROM "users" WHERE email = 'daglas.aitsen@ut.ee')),
     ('Post 2 body', (SELECT id FROM "users" WHERE email = 'daglas.aitsen@ut.ee')),
     ('Post 3 body', (SELECT id FROM "users" WHERE email = 'daglas.aitsen@ut.ee')),
     ('Post 4 body', (SELECT id FROM "users" WHERE email = 'daglas.aitsen@ut.ee')),
     ('Post 5 body', (SELECT id FROM "users" WHERE email = 'daglas.aitsen@ut.ee'));
-`
+` */
 
 execute(createTblQueryUsers)
   .then(() => execute(createTblQueryPosts))
-  .then(() => execute(insertPostQuery))
+  /* .then(() => execute(insertPostQuery)) */
   .then(() => console.log('Tables "users" and "posttable" are created.'))
   .catch((error) => console.error("Error:", error))
 
