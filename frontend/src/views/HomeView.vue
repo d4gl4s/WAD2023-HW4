@@ -91,6 +91,7 @@ li {
   text-decoration: none;
   list-style-type: none;
   width: 100%;
+  margin-left: 0;
 }
 ul {
   width: 70%;
@@ -98,6 +99,7 @@ ul {
   margin-top: 3em;
   max-width: 600px;
   margin-bottom: 3em;
+  padding-left: 0;
 }
 #buttonsDiv {
   margin: auto;
